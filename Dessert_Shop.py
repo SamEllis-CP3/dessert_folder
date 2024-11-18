@@ -135,8 +135,8 @@ def main():
     total_tax = Order_1.order_tax()
 
     order_data.append(["Subtotal" , f"${subtotal: .2f}", f"${total_tax: .2f}"])
-    order_data.append(["Total", f"${subtotal + total_tax: .2f}", "" ])
-    order_data.append(["Total Items", str(len(Order_1)), ""])
+    order_data.append(["Total", "", f"${subtotal + total_tax: .2f}" ])
+    order_data.append(["Total Items","", str(len(Order_1))])
 
     make_receipt(order_data, "receipt.pdf")
 
