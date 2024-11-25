@@ -111,7 +111,124 @@ class Order:
     
 
 
+class DessertShop:
+    @staticmethod
+    def user_prompt_candy():
+        name = input("Enter the type of candy: ").strip()
+        
+        while True:
+            try:
+                weight = float(input(f"Enter the weight of {name} in pounds: ").strip())
+                if weight <= 0:
+                    raise ValueError("Weight must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid weight. {e}")
+        
+        while True:
+            try:
+                price_per_pound = float(input("Enter the price per pound: ").strip())
+                if price_per_pound <= 0:
+                    raise ValueError("Price must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid price. {e}")
+
+        return Candy(name, weight, price_per_pound)
+
+    @staticmethod
+    def user_prompt_cookie():
+        name = input("Enter the type of cookie: ").strip()
+        
+        while True:
+            try:
+                amount = float(input(f"Enter the amount of {name} in dozens: ").strip())
+                if amount <= 0:
+                    raise ValueError("Amount must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid amount. {e}")
+        
+        while True:
+            try:
+                price_per_dozen = float(input("Enter the price per dozen: ").strip())
+                if price_per_dozen <= 0:
+                    raise ValueError("Price must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid price. {e}")
+
+        return Cookie(name, amount, price_per_dozen)
+
+    @staticmethod
+    def user_prompt_icecream():
+        name = input("Enter the type of icecream: ").strip()
+        
+        while True:
+            try:
+                scoops = float(input(f"Enter the scoop amount of {name}: ").strip())
+                if scoops <= 0:
+                    raise ValueError("Scoops must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid amount. {e}")
+        
+        while True:
+            try:
+                price_per_scoop = float(input("Enter the price per scoop: ").strip())
+                if price_per_scoop <= 0:
+                    raise ValueError("Price must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid price. {e}")
+
+        return Candy(name, scoops, price_per_scoop)
+
+    @staticmethod
+    def user_prompt_sundae():
+        name = input("Enter the type of icecream: ").strip()
+        topping_name = input("Enter the type of topping you want: ").strip
+        while True:
+            try:
+                scoop_count = float(input(f"Enter the scoop amount of {name}: ").strip())
+                if scoop_count <= 0:
+                    raise ValueError("Scoops must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid amount. {e}")
+        
+        while True:
+            try:
+                price_per_scoop = float(input("Enter the price per scoop: ").strip())
+                if price_per_scoop <= 0:
+                    raise ValueError("Price must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid price. {e}")
+
+        while True:
+            try:
+                toppings = float(input(f"Enter the toppings amount of {topping_name}: "))
+                if toppings <= 0:
+                    raise ValueError("Toppings must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid amount. {e}")
+
+        while True:
+            try:
+                price_per_toppings = float(input("Enter the price per toppings: ").strip())
+                if price_per_toppings <= 0:
+                    raise ValueError("Price must be a positive number.")
+                break
+            except ValueError as e:
+                print(f"Invalid input. Please enter a valid price. {e}")
+        return Candy(name, scoop_count, price_per_scoop, topping_name, price_per_toppings)
+
+
 def main():
+    """
+    
     Order_1 = Order()
     
     Order_1.add(Candy("Candy Corn", 1.5, .25))
@@ -124,19 +241,48 @@ def main():
     for item in Order_1.order:
         print(f"{item.get_name()} - ${item.calc_cost():.2f}")
         
+    """
 
-    print(f"Total number of items in order: {len(Order_1)}")
+    order = Order()
     
-    print(f"Total cost of the order: ${Order_1.order_cost():.2f}")
-    print(f"Total tax applied: ${Order_1.order_tax():.2f}")
+    while True:
+        print("\n1: Candy")
+        print("2: Cookie")
+        print("3: Ice Cream")
+        print("4: Sundae")
+        print("What would you like to add to the order? (1-4, Enter for done): ", end="")
+        
+        choice = input().strip()
+        
+        if choice == "":
+            break
+        
+        if choice == "1":
+            order.add(DessertShop.user_prompt_candy())
+        elif choice == "2":
+            order.add(DessertShop.user_prompt_cookie())
+        elif choice == "3":
+            order.add(DessertShop.user_prompt_icecream())
+        elif choice == "4":
+            order.add(DessertShop.user_prompt_sundae())
+        else:
+            print("Invalid choice. Please enter a number between 1 and 4.")
+    
+    print("\nOrder Summary:")
+    for item in order.order:
+        print(f"{item.get_name()} - ${item.calc_cost():.2f}")
+    
+    print(f"Total number of items in order: {len(order)}")
+    print(f"Total cost of the order: ${order.order_cost():.2f}")
+    print(f"Total tax applied: ${order.order_tax():.2f}")
 
-    order_data = Order_1.get_order_data()
-    subtotal = Order_1.order_cost()
-    total_tax = Order_1.order_tax()
+    order_data = order.get_order_data()
+    subtotal = order.order_cost()
+    total_tax = order.order_tax()
 
     order_data.append(["Subtotal" , f"${subtotal: .2f}", f"${total_tax: .2f}"])
     order_data.append(["Total", "", f"${subtotal + total_tax: .2f}" ])
-    order_data.append(["Total Items","", str(len(Order_1))])
+    order_data.append(["Total Items","", str(len(order))])
 
     make_receipt(order_data, "receipt.pdf")
 
